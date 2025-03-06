@@ -163,6 +163,8 @@
             document.getElementById("score").innerText = score;
         }
 
+        // Desktop Support
+
         let isMouseDown = false;
 
         canvas.addEventListener("mousedown", (e) => {
@@ -191,6 +193,26 @@
 
         canvas.addEventListener("mouseleave", () => {
             isMouseDown = false;
+        });
+
+        // Mobile support
+
+        canvas.addEventListener("touchstart", (e) => {
+            let touchX = e.touches[0].clientX;
+            if (touchX >= paddle.x && touchX <= paddle.x + paddle.width) {
+                isDragging = true;
+            }
+        });
+
+        canvas.addEventListener("touchmove", (e) => {
+            if (isDragging) {
+                let touchX = e.touches[0].clientX;
+                paddle.x = touchX - paddle.width / 2;
+            }
+        });
+
+        canvas.addEventListener("touchend", () => {
+            isDragging = false;
         });
 
         function gameLoop() {
